@@ -190,7 +190,7 @@ Sono presenti, inoltre, servizi dedicati alle regioni (per esempio il Load Balan
 
 Per distribuire i dati nel mondo, il problema è la latenza. Immaginando di essere in Brasile e un utente in Cina vuole accedere ad un video sulla piattaforma, dovrebbe scaricarlo dal Brasile con una certa difficoltà. Le Edge Location sono delle copie dei dati posizionati in una specifica regione in modo che il dato sia sempre disponibile e più vicino possibile all'utente che ci accedere. Non è necessario rifare l'intera infrastruttura, viene creata una copia del dato quindi il sito magari è sempre disponibile dal Brasile, ma quando viene scaricato qualcosa, il file è disponibile in Cina, con tempistiche minori.
 
-Con CloudFront è possibile avere dei server fisici, posseduti e mantenuti da AWS, nel proprio datacenter. Può essere utile in specifiche situazioni.
+Con AWS Outposts è possibile avere dei server fisici, posseduti e mantenuti da AWS, nel proprio datacenter. Può essere utile in specifiche situazioni.
 
 ## How to provision AWS resources
 
