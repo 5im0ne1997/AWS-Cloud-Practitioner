@@ -169,3 +169,33 @@ EKS è un servizio completametne gestito per usare Kubernates su AWS.
 ### AWS Fargate
 
 AWS Fargate è un motore serverless per la gestione di container. Funziona sia con ECS che EKS. Quando viene utilizzato, non è necessario creare e gestire le istanze EC2. Fargate gestisce le istanze.
+
+# Modulo 3 - Global Ingrastructure and Reliability
+
+## Introduzione
+
+Per avere una infrastruttura in grado di soddisfare tutti i requisiti ed essere sempre funzionante, è necessario che sia in alta affidabilità. Questo è possibile distribuendo le istanze su più regioni, in modo che se dovesse succedere qualcosa in una singola regione, l'infrastruttura è sempre raggiungibile da un'altra parte.
+
+## AWS Global Infrastructure
+
+Aws è divisa in regioni, ogni regione è una zona nel mondo, colelgate tra di loro da una rete di fibra e isolate, a livello di dato, l'una con l'altra. In ogni regione sono presenti più datacenter in modo da distribuire la potenza sul territorio e mitigare i disastri.
+
+Ci sono vari fattori da considerare quando si sceglie una regione. La compliance è la prima da considerare. Se il dato deve risiedere all'interno di una regione specifica, per esempio in Italia deve risiedere solo in Italia, l'unica scelta da fare è la regione Italiana. Se la compliance non è una limitazione sulla scelta allora ci sono altri fattori da considerare. Per esempio la prossimità, se il business è a Singapore, allora ha senso scegliere quella regione, in questo modo si abbatte la latenza tra il servizio e l'utente finale. Un'altra opzione è la scelta delle funzionalità, non tutte le funzionalità di AWS sono disponibili in tutte le regioni, verranno implementate nel tempo ma non possono essere distribuite sempre a livello globale poiché potrebbero richiedere dell'hardware specifico. Ultimo, ma non meno importante, è il prezzo. Ogni regione ha un prezzo differente, causati da vari aspetti che possono essere il prezzo della corrente alla tassazione. Per esempio in Brasile, la tassazione è estremamente alta, può costare oltre il 50% in più rispetto agli stati uniti.
+
+Ogni regione è fatta da più gruppi di datacenter, e questi gruppi sono distribuiti a livello geografico nella regione. In questo modo, se dovesse esserci un disservizio in un datacenter, saranno presenti gli altri all'interno del gruppo, ma se dovesse esserci un disservizio generalizzato in un gruppo, le risorse sarebbero irraggiungibili. Questi gruppi vengono chiamiti Availability Zone. Per rendere il servizio sempre disponibile, è bene avere 2 o più istanze in Availability Zone diverse, in questo modo viene mitigato il problema e il servizio sarebbe sempre raggiungibile.
+
+Sono presenti, inoltre, servizi dedicati alle regioni (per esempio il Load Balancer). Questi servizi, essendo specifici per regione, sono già distribuiti su più availability zone per essere sempre disponibili.
+
+## Edge Locations
+
+Per distribuire i dati nel mondo, il problema è la latenza. Immaginando di essere in Brasile e un utente in Cina vuole accedere ad un video sulla piattaforma, dovrebbe scaricarlo dal Brasile con una certa difficoltà. Le Edge Location sono delle copie dei dati posizionati in una specifica regione in modo che il dato sia sempre disponibile e più vicino possibile all'utente che ci accedere. Non è necessario rifare l'intera infrastruttura, viene creata una copia del dato quindi il sito magari è sempre disponibile dal Brasile, ma quando viene scaricato qualcosa, il file è disponibile in Cina, con tempistiche minori.
+
+Con CloudFront è possibile avere dei server fisici, posseduti e mantenuti da AWS, nel proprio datacenter. Può essere utile in specifiche situazioni.
+
+## How to provision AWS resources
+
+Sono presenti vari modi per interagire con AWS, la prima è la Management Console. E' una console via web che ti permette di fare qualsiasi cosa all'interno di AWS, è utile per esporare i servizi e testare le funzionalità. Ma, in un ambiente molto grande, può essere tedioso eseguire molti click, o dimenticarsi una spunta, navigare in molte finestre per eseguire tante azioni. Quindi vengono in aiuto le APIs, le APIs ti permettono di cominicare con tutti i servizi di AWS sia via CLI che tramite SDK. Con la CLI si possono eseguire comandi e creare script che eseguono pià azioni, così da non perdere nessun passaggio, oppure con l'SDK (che supporta vari linguaggi di programmazione) creare dei veri e prorpi programmi che eseguono azioni e automatizzare qualsiasi cosa in AWS.
+
+Con AWS Elastic Beanstalk, è possibile creare delle configurazioni personalizzate, utilizzando un linguaggio di programmazione, e il servizio si preoccuperà di creare in autonomia gli ambienti e le configurazioni necessarie, senza cliccare in molte finestre o eseguire svariati comandi da CLI.
+
+AWS CloudFormation è un infrastucture as a Code, ti permette di scrivere uno Yaml o Json indicando come vuoi l'infrastruttura senza specificare dati specifici e CloudFormation creerà tutto in autonomia.
